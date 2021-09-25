@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Hello, world!</title>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+    ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notification-drop {
+  font-family: 'Ubuntu', sans-serif;
+  color: #444;
+}
+.notification-drop .item {
+  padding: 10px;
+  font-size: 18px;
+  position: relative;
+  border-bottom: 1px solid #ddd;
+}
+.notification-drop .item:hover {
+  cursor: pointer;
+}
+.notification-drop .item i {
+  margin-left: 10px;
+}
+.notification-drop .item ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  background: #fff;
+  left: -200px;
+  right: 0;
+  z-index: 1;
+  border-top: 1px solid #ddd;
+}
+.notification-drop .item ul li {
+  font-size: 16px;
+  padding: 15px 0 15px 25px;
+}
+.notification-drop .item ul li:hover {
+  background: #ddd;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+@media screen and (min-width: 500px) {
+  .notification-drop {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .notification-drop .item {
+    border: none;
+  }
+}
+
+
+
+.notification-bell{
+  font-size: 20px;
+}
+
+.btn__badge {
+  background: #FF5D5D;
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  right: 0px;
+  padding:  3px 10px;
+  border-radius: 50%;
+}
+
+.pulse-button {
+  box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.5);
+  -webkit-animation: pulse 1.5s infinite;
+}
+
+.pulse-button:hover {
+  -webkit-animation: none;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  70% {
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    box-shadow: 0 0 0 50px rgba(255, 0, 0, 0);
+  }
+  100% {
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}
+
+.notification-text{
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.notification-text span{
+  float: right;
+}
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'user_detail'  request.user.id %}">{{ request.user|title }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'main-page' %}"><i class="fa fa-home"></i>Home<span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'user_detail'  request.user.id %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'todo_create' %}">Add todo</a>
+                </div>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+            {% endif %}
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control searching mr-sm-2" name="search-area" type="search" placeholder="Search"
+                   value="{{ search_input }}" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+    </div>
+</nav>
+
+
+{% block content %}
+{% endblock content %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  $(".notification-drop .item").on('click',function() {
+    $(this).find('ul').toggle();
+    });
+});
+
+
+</script>
+</body>
+</html>

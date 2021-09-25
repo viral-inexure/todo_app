@@ -1,0 +1,58 @@
+{% extends 'demo_app/base.html' %}
+{% block content %}
+
+
+<div class="card text-center my-3 container">
+    <ul>
+        <li class="total_complete_task my-3">
+            <h3><b>Total incomplete task</b> <i>{{count}}</i></h3>
+        </li>
+    </ul>
+
+    <ul class="notification-drop">
+
+        <li class="item">
+            <i class="fa fa-bell-o notification-bell" aria-hidden="true"></i>
+            <ul>
+                {% for massage in massages %}
+
+                <div class="card text-white bg-info mb-1" style="max-width: 15rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{massage}}</h5>
+                    </div>
+                </div>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+
+</div>
+
+{% if todo.count == 0 %}
+<center><h1>No data found </h1></center>
+{% else %}
+{% for task in todo %}
+<div class="card text-center container my-2">
+    <div class="card-header">
+        <h1>{{task.title}}</h1>
+    </div>
+    <div class="card-body">
+        {% if task.is_important == True %}
+        <span style="font-size:250%;color:blue;">&bigstar;</span>
+        {% endif %}
+        {% if task.is_completed == True %}
+        <strike><p class="card-text"><h4><b>{{task.description}}</b></h4></p></strike>
+        {% else %}
+        <p class="card-text"><h4><b>{{task.description}}</b></h4></p>
+        {% endif %}
+        <h4 class="dead_time">{{ task.deadline_time|timeuntil }}</h4>
+        <a class="btn btn-primary" href="{% url 'task-update' task.id %}">Edit</a>
+        <a class="delete-link btn btn-danger" type="button" href="{% url 'task-delete' task.id %}">Delete</a>
+    </div>
+    <div class="card-footer text-muted">
+        {{task.create_time}}
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

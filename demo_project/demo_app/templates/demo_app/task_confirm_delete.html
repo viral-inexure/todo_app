@@ -1,0 +1,13 @@
+{% extends 'demo_app/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <p><b>Are Sure you Want to Delete This....???</b></p>
+                <input class="button" value="delete" type="submit">
+            </form>
+
+        </div>
+    </div>
+{% endblock content %}
